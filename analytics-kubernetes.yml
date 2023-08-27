@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: "006712159429.dkr.ecr.us-east-1.amazonaws.com/udacity-project:11"
+        image: "006712159429.dkr.ecr.us-east-1.amazonaws.com/udacity-project:13"
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
