@@ -16,4 +16,5 @@ COPY analytics/ .
 RUN ls && echo "Contents of /src directory listed above"
 
 # Specify the command to run when the container starts
-CMD python app.py
+#CMD python app.py
+ENTRYPOINT [ "python", "app.py" ] 
