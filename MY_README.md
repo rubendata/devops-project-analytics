@@ -57,6 +57,7 @@ sed "s|<NODE_INSTANCE_NAME>|$NODE_1_NAME|" local_storage_class.yml | kubectl app
 
 # install postgresql as a service 
 helm install $SERVICE_POSTGRESQL $HELM_BITNAMI_REPO/postgresql --set global.storageClass=local-storage
+
 helm list
 # helm uninstall $SERVICE_POSTGRESQL
 

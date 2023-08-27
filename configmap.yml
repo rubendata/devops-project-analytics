@@ -4,6 +4,6 @@ metadata:
   name: my-configmap
 data:
   APP_PORT: "5153"
-  DB_HOST: "SERVICE_POSTGRESQL"
+  DB_HOST: "coworking-postgresql"
   DB_PORT: "5432"
   DB_NAME: "postgres"
