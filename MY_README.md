@@ -1,3 +1,9 @@
+## create the docker image
+https://stackoverflow.com/questions/73285601/docker-exec-usr-bin-sh-exec-format-error#:~:text=api%2Dcatalog%20%25-,Comment%3A,-This%20usually%20happens
+be careful with the architecture if you run on macOS
+
+docker buildx build --platform=linux/amd64 -t udacity-project:latest .   
+
 ## run the docker with environment variables
 the environment variables are directly used in the app.py
 
