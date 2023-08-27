@@ -1,65 +1,69 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: analytics-api
+  name: <DEPLOYMENT_NAME>
   labels:
-    name: analytics-api
+    name: <DEPLOYMENT_NAME>
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: analytics-api
+      service: <DEPLOYMENT_NAME>
   template:
     metadata:
       labels:
-        service: analytics-api
+        service: <DEPLOYMENT_NAME
     spec:
       containers:
       - name: app
-        image: "006712159429.dkr.ecr.us-east-1.amazonaws.com/udacity-project:11"
+        image: <DOCKER_IMAGE_URI>
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: /health_check
-            port: 5153
+            port: <APP_PORT>
           initialDelaySeconds: 5
           timeoutSeconds: 2
         readinessProbe:
           httpGet:
             path: "/readiness_check"
-            port: 5153
+            port: <APP_PORT>
           initialDelaySeconds: 5
           timeoutSeconds: 5
         env:
+        - name: BUILD_VERSION
+          value: <BUILD_VERSION>
+
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: my-secret
+              name: db-credentials
               key: POSTGRES_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-secret
+              name: db-credentials
               key: POSTGRES_PASSWORD
+
         - name: APP_PORT
           valueFrom:
             configMapKeyRef:
-              name: my-configmap
+              name: <APP_CONFIG>
               key: APP_PORT
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
-              name: my-configmap
+              name: <APP_CONFIG>
               key: DB_HOST
         - name: DB_PORT
           valueFrom:
             configMapKeyRef:
-              name: my-configmap
+              name: <APP_CONFIG>
               key: DB_PORT
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: my-configmap
+              name: <APP_CONFIG>
               key: DB_NAME
 
       restartPolicy: Always

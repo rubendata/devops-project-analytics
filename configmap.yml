@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  APP_PORT: "5153"
+  DB_HOST: "SERVICE_POSTGRESQL"
+  DB_PORT: "5432"
+  DB_NAME: "postgres"
