@@ -13,8 +13,7 @@ RUN pip install -r requirements.txt
 COPY analytics/ .
 
 # Add an 'ls' command to list files in the /src directory and print the output
-RUN ls && echo "Contents of /src directory listed above"
+RUN echo "Contents of /src directory:" && ls
 
 # Specify the command to run when the container starts
-#CMD python app.py
-ENTRYPOINT [ "python", "app.py" ] 
+CMD ["python", "app.py"]

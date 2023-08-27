@@ -80,6 +80,9 @@ kubectl port-forward --namespace default svc/$SERVICE_POSTGRESQL 5432:5432 &
 PGPASSWORD="$POSTGRES_PASSWORD" psql -h 127.0.0.1 -U postgres -d postgres -p 5432 < ./db/1_create_tables.sql
 
 prompt in POSTGRES password
+echo -n $POSTGRES_PASSWORD | base64
+
+change the password in secret.yml as base64
 
 kubectl port-forward --namespace default svc/$SERVICE_POSTGRESQL 5432:5432 &
 PGPASSWORD="$POSTGRES_PASSWORD" psql -h 127.0.0.1 -U postgres -d postgres -p 5432 < ./db/2_seed_users.sql
@@ -88,36 +91,11 @@ kubectl port-forward --namespace default svc/$SERVICE_POSTGRESQL 5432:5432 &
 PGPASSWORD="$POSTGRES_PASSWORD" psql -h 127.0.0.1 -U postgres -d postgres -p 5432 < ./db/3_seed_tokens.sql
 
 
-## EKS secretmap
-POSTGRES_PASSWORD=$(kubectl get secret --namespace default coworking-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
-echo $POSTGRES_PASSWORD
-POSTGRES_USERNAME=postgres
-kubectl create secret generic $APP_SECRET_NAME \
---from-literal=POSTGRES_USERNAME=$POSTGRES_USERNAME \
---from-literal=POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-
-kubectl get secret $APP_SECRET_NAME
-
-## EKS configmap
-APP_PORT=5153
-DB_HOST=SERVICE_POSTGRESQL
-DB_PORT="5432"
-DB_NAME="postgres"
-kubectl create configmap $APP_CONFIG \
---from-literal=APP_PORT=$APP_PORT \
---from-literal=DB_HOST=$DB_HOST \
---from-literal=DB_PORT=$DB_PORT \
---from-literal=DB_NAME=$DB_NAME
-
-
-
-kubectl get configmap $APP_CONFIG -o json
 
 
 ## deployment EKS app from dockerimage ECR
 
 
-
-
-
+kubectl apply -f secret.yml
+kubectl apply -f configmap.yml
 kubectl apply -f analytics-kubernetes.yml 
